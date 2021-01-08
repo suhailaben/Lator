@@ -29,7 +29,6 @@ function operate() {
         (operator === 'times') ? multiplyThem(getFormer(), getLast()) :
         (operator === 'divided') ? divideThem(getFormer(), getLast()) :
         'error'
-      //  console.log('no accumulator')
     }
     return output;
 }
