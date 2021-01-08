@@ -1,7 +1,7 @@
 let operator = '';
-let first = 0;
-let second = 0;
 const display = document.querySelector('#display');
+let history = [];
+let accumulator = null;
 function addThem(first, second) {
     return (first + second);
 }
@@ -14,12 +14,22 @@ function multiplyThem(first, second) {
 function divideThem(first, second) {
     return (first / second);
 }
-function operate(operator, first, second) {
-    let output = (operator === 'plus') ? addThem(first, second) :
-    (operator === 'minus') ? subtractThem(first, second) :
-    (operator === 'times') ? multiplyThem(first, second) :
-    (operator === 'divided') ? divideThem(first, second) :
-    'error'
+function operate() {
+    let output;
+    if (accumulator !== null) {
+        output = (operator === 'plus') ? addThem(accumulator, getLast()) :
+        (operator === 'minus') ? subtractThem(accumulator, getLast()) :
+        (operator === 'times') ? multiplyThem(accumulator, getLast()) :
+        (operator === 'divided') ? divideThem(accumulator, getLast()) :
+        'error'
+    } else {
+        output = (operator === 'plus') ? addThem(getFormer(), getLast()) :
+        (operator === 'minus') ? subtractThem(getFormer(), getLast()) :
+        (operator === 'times') ? multiplyThem(getFormer(), getLast()) :
+        (operator === 'divided') ? divideThem(getFormer(), getLast()) :
+        'error'
+      //  console.log('no accumulator')
+    }
     return output;
 }
 function updateDisplay(num) {
@@ -28,21 +38,61 @@ function updateDisplay(num) {
     } else if (display.textContent.length === 10) {
         return;
     } else {
-        display.textContent = display.textContent + num;
+        if (display.textContent === '0'){
+            display.textContent = num;
+        } else {
+            display.textContent = display.textContent + num;
+        }
     }
 }
-function updateOperator(op) {
+function useOperator(op) {
+    updateHistory(display.textContent);
+
+    if (history.length > 1) {
+        accumulator = operate()
+    } 
     operator = op;
-    first = parseFloat(display.textContent);
     updateDisplay('clear');
     };
-
 function provideResult() {
-    second = parseFloat(display.textContent);
-    display.textContent = operate(operator, first, second);
+    updateHistory(display.textContent);
+    display.textContent = operate();
 }
-
-
+function updateHistory(num) {
+    history.push(parseFloat(num));
+    return history;
+}
+function getLast() {
+    let length = history.length;
+    return history[(length - 1)];
+}
+function getFormer() {
+    let length = history.length;
+    return history[(length - 2)];
+}
+function clearCalc() {
+    history = [];
+    updateDisplay('clear');
+    accumulator = null;
+    operator = '';
+}
+function updateAccumulator(num) {
+    accumulator = parseFloat(num);
+}
+function addDecimal() {
+    if (display.textContent.includes('.')) {
+        return;
+    } else {
+        updateDisplay('.')
+    }
+}
+function changeUnary() {
+    display.textContent = ( - (parseFloat(display.textContent)));
+}
+function getPercent() {
+    let percent = display.textContent / 100;
+    display.textContent = percent;
+}
 const zero = document.querySelector('#zero');
 zero.addEventListener('click', () => updateDisplay('0'));
 const one = document.querySelector('#one');
@@ -63,20 +113,22 @@ const eight = document.querySelector('#eight');
 eight.addEventListener('click', () => updateDisplay('8'));
 const nine = document.querySelector('#nine');
 nine.addEventListener('click', () => updateDisplay('9'));
-
 const clear = document.querySelector('#clear');
-clear.addEventListener('click', () => updateDisplay('clear'));
+clear.addEventListener('click', clearCalc);
 const unary = document.querySelector('#unary');
+unary.addEventListener('click', changeUnary);
 const percent = document.querySelector('#percent');
+percent.addEventListener('click', getPercent);
 const divided = document.querySelector('#divided');
-divided.addEventListener('click', () => updateOperator('divided'));
+divided.addEventListener('click', () => useOperator('divided'));
 const times = document.querySelector('#times');
-times.addEventListener('click', () => updateOperator('times'));
+times.addEventListener('click', () => useOperator('times'));
 const minus = document.querySelector('#minus');
-minus.addEventListener('click', () => updateOperator('minus'));
+minus.addEventListener('click', () => useOperator('minus'));
 const plus = document.querySelector('#plus');
-plus.addEventListener('click', () => updateOperator('plus'));
+plus.addEventListener('click', () => useOperator('plus'));
 const dot = document.querySelector('#dot');
+dot.addEventListener('click', addDecimal);
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', () => provideResult());
 
