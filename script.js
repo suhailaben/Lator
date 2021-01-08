@@ -3,16 +3,16 @@ const display = document.querySelector('#display');
 let history = [];
 let accumulator = null;
 function addThem(first, second) {
-    return (first + second);
+    return (Math.round(((first + second) + Number.EPSILON) * 100) / 100);
 }
 function subtractThem(first, second) {
-    return (first - second);
+    return (Math.round(((first - second) + Number.EPSILON) * 100) / 100);
 }
 function multiplyThem(first, second) {
-    return (first * second);
+    return (Math.round(((first * second) + Number.EPSILON) * 100) / 100);
 }
 function divideThem(first, second) {
-    return (first / second);
+    return (Math.round(((first / second) + Number.EPSILON) * 100) / 100);
 }
 function operate() {
     let output;
@@ -55,6 +55,9 @@ function useOperator(op) {
     updateDisplay('clear');
     };
 function provideResult() {
+    if (history.length === 0) {
+        return;
+    }
     updateHistory(display.textContent);
     display.textContent = operate();
 }
@@ -132,7 +135,17 @@ dot.addEventListener('click', addDecimal);
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', () => provideResult());
 
-
-
-
-
+document.addEventListener("keydown", KeyCheck);
+function KeyCheck(e)
+{
+   var KeyID = e.keyCode;
+   switch(KeyID)
+   {case 8:
+    if ((display.textContent).length === 1) {
+        display.textContent = '0';
+    } else {
+        display.textContent = (display.textContent).slice(0, -1);
+    }
+      break; 
+   }
+}
