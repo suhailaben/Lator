@@ -2,6 +2,7 @@ let operator = '';
 const display = document.querySelector('#display');
 let history = [];
 let accumulator = null;
+let lightBulb = false;
 function addThem(first, second) {
     return (Math.round(((first + second) + Number.EPSILON) * 100) / 100);
 }
@@ -33,6 +34,7 @@ function operate() {
     return output;
 }
 function updateDisplay(num) {
+    if (lightBulb) {display.textContent = ''}
     if (num === 'clear') {
         display.textContent = '0';
     } else if (display.textContent.length === 10) {
@@ -52,7 +54,7 @@ function useOperator(op) {
         accumulator = operate()
     } 
     operator = op;
-    updateDisplay('clear');
+    lightBulb = true;
     };
 function provideResult() {
     if (history.length === 0) {
