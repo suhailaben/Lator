@@ -90,7 +90,11 @@ function updateAccumulator(num) {
 }
 function addDecimal() {
     if (display.textContent.includes('.')) {
-        return;
+        if (lightBulb) {
+            updateDisplay('.')
+        } else {
+            return;
+        }
     } else {
         updateDisplay('.')
     }
