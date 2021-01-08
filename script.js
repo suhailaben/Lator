@@ -34,7 +34,10 @@ function operate() {
     return output;
 }
 function updateDisplay(num) {
-    if (lightBulb) {display.textContent = ''}
+    if (lightBulb) {
+        display.textContent = '';
+        lightBulb = false;
+    }
     if (num === 'clear') {
         display.textContent = '0';
     } else if (display.textContent.length === 10) {
