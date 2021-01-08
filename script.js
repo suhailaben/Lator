@@ -65,6 +65,7 @@ function provideResult() {
     updateHistory(display.textContent);
     display.textContent = operate();
     history = [];
+    lightBulb = true;
 }
 function updateHistory(num) {
     history.push(parseFloat(num));
