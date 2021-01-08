@@ -60,6 +60,7 @@ function provideResult() {
     }
     updateHistory(display.textContent);
     display.textContent = operate();
+    history = [];
 }
 function updateHistory(num) {
     history.push(parseFloat(num));
