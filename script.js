@@ -43,7 +43,11 @@ function updateDisplay(num) {
         return;
     } else {
         if (display.textContent === '0'){
-            display.textContent = num;
+            if (num === '.') {
+                display.textContent = display.textContent + num;
+            } else {
+                display.textContent = num;
+            }
         } else {
             display.textContent = display.textContent + num;
         }
@@ -91,6 +95,7 @@ function updateAccumulator(num) {
 function addDecimal() {
     if (display.textContent.includes('.')) {
         if (lightBulb) {
+            updateDisplay('0')
             updateDisplay('.')
         } else {
             return;
