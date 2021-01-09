@@ -57,7 +57,9 @@ function useOperator(op) {
     updateHistory(display.textContent);
 
     if (history.length > 1) {
-        accumulator = operate()
+        accumulator = operate();
+        lightBulb = true;
+        updateDisplay(accumulator);
     } 
     operator = op;
     lightBulb = true;
