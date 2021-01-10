@@ -23,13 +23,13 @@ function operate() {
         (operator === 'minus') ? subtractThem(accumulator, getLast()) :
         (operator === 'times') ? multiplyThem(accumulator, getLast()) :
         (operator === 'divided') ? divideThem(accumulator, getLast()) :
-        'error'
+        'error';
     } else {
         output = (operator === 'plus') ? addThem(getFormer(), getLast()) :
         (operator === 'minus') ? subtractThem(getFormer(), getLast()) :
         (operator === 'times') ? multiplyThem(getFormer(), getLast()) :
         (operator === 'divided') ? divideThem(getFormer(), getLast()) :
-        'error'
+        'error';
     }
     return output;
 }
@@ -101,13 +101,16 @@ function updateAccumulator(num) {
 function addDecimal() {
     if (display.textContent.includes('.')) {
         if (lightBulb) {
-            updateDisplay('0')
-            updateDisplay('.')
+            updateDisplay('0');
+            updateDisplay('.');
         } else {
             return;
         }
     } else {
-        updateDisplay('.')
+        if (lightBulb) {
+            updateDisplay('0');
+        }
+        updateDisplay('.');
     }
 }
 function changeUnary() {
