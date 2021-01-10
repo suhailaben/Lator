@@ -17,6 +17,7 @@ function divideThem(first, second) {
 }
 function operate() {
     let output;
+
     if (accumulator !== null) {
         output = (operator === 'plus') ? addThem(accumulator, getLast()) :
         (operator === 'minus') ? subtractThem(accumulator, getLast()) :
@@ -54,6 +55,9 @@ function updateDisplay(num) {
     }
 }
 function useOperator(op) {
+    if (lightBulb) {
+        return;
+    }
     updateHistory(display.textContent);
 
     if (history.length > 1) {
@@ -65,7 +69,7 @@ function useOperator(op) {
     lightBulb = true;
     };
 function provideResult() {
-    if (history.length === 0) {
+    if (history.length === 0 || lightBulb) {
         return;
     }
     updateHistory(display.textContent);
