@@ -59,7 +59,6 @@ function updateDisplay(num) {
     }
 }
 function useOperator(op) {
-
     if (justUsedOperator) {
         operator = op;
         return;
