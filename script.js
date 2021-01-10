@@ -3,6 +3,8 @@ const display = document.querySelector('#display');
 let history = [];
 let accumulator = null;
 let lightBulb = false;
+let justUsedOperator = false;
+let justProvidedResult = false;
 function addThem(first, second) {
     return (Math.round(((first + second) + Number.EPSILON) * 100) / 100);
 }
@@ -34,9 +36,11 @@ function operate() {
     return output;
 }
 function updateDisplay(num) {
-    if (lightBulb) {
+    justUsedOperator = false;
+    if (lightBulb || justProvidedResult) {
         display.textContent = '';
         lightBulb = false;
+        justProvidedResult = false;
     }
     if (num === 'clear') {
         display.textContent = '0';
@@ -55,7 +59,9 @@ function updateDisplay(num) {
     }
 }
 function useOperator(op) {
-    if (lightBulb) {
+
+    if (justUsedOperator) {
+        operator = op;
         return;
     }
     updateHistory(display.textContent);
@@ -67,6 +73,7 @@ function useOperator(op) {
     } 
     operator = op;
     lightBulb = true;
+    justUsedOperator = true;
     };
 function provideResult() {
     if (history.length === 0 || lightBulb) {
@@ -75,8 +82,12 @@ function provideResult() {
     updateHistory(display.textContent);
     display.textContent = operate();
     history = [];
-    lightBulb = true;
+    justProvidedResult = true;
+
+    accumulator = null;
+    operator = '';
 }
+
 function updateHistory(num) {
     history.push(parseFloat(num));
     return history;
